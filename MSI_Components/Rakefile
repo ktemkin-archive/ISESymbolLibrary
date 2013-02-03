@@ -1,0 +1,38 @@
+
+#require 'rubygems'
+#require 'bundler/setup'
+
+require 'ise'
+require 'require_all'
+require_all '../scripts' 
+
+#This parameter specifies the bus widths that should be built.
+DEFAULT_BUS_WIDTHS = 2..32
+
+STD_ARGS = [:low, :high]
+
+def bus_widths(args)
+  #Get the bus widths, or the defaults if they don't exist.
+  low = args[:low] || DEFAULT_BUS_WIDTHS.first
+  high = args[:high] || DEFAULT_BUS_WIDTHS.last
+
+  #And return a range which includes each bus width do be created.
+  low..high
+end
+
+
+#By default, create all of the components with the default options.
+task :default => :all
+
+task :all, STD_ARGS => :BusMux 
+
+task :BusMux, STD_ARGS => :BusMux16 
+
+task :BusMux16, STD_ARGS do |t, args|
+  generate_width_variations_of('base_files/BusMux16.sym', 'base_files/BusMux16.vhd') do |s|
+    s.vary_width_between  bus_widths(args)
+    s.vary_value_of       'BusWidth'
+    s.vary_width_if       { |pin| pin[0] == 'i' }
+    s.vary_width_if       { |pin| pin[0] == 'o' }
+  end
+end

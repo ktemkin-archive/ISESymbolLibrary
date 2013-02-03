@@ -1,0 +1,8 @@
+add instance BusMux16_15 672 1184 R0 -sn=1
+add instance BusMux16_14 2032 1552 R0 -sn=1
+add instance BusMux16_19 848 2384 R0 -sn=1
+select figure at 1914 1104 8 -branches -sn=1
+select all in -2147483648 -2147483648 2147483647 2147483647 -sn=1
+select all in -2147483648 -2147483648 2147483647 2147483647 -sn=1
+delete selection -sn=1
+select figure at -639 661 8 -branches -sn=1
