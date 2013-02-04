@@ -29,16 +29,21 @@ end
 #By default, create all of the components with the default options.
 task :default => :all
 
-task :all, STD_ARGS => [:Multiplexers, :Registers]
+#Logic elements to create.
+task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters]
 
-task :Registers, STD_ARGS => :RegParallelLoad
-task :Multiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux4, :Mux2]
+#Categories of logic elements.
+task :AllRegisters, STD_ARGS => [:RegParallelLoad, :UpCounter]
+task :AllMultiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux4, :Mux2]
 
 #
 # Rule used to build all of the register-type components.
 #
-rule(/Reg[A-Za-z0-9]+/, STD_ARGS) do |t, args|
-  generate_width_variations_of('base_files/RegParallelLoad.sym', 'base_files/RegParallelLoad.vhd') do |s|
+
+register_like_devices = Regexp.union(/^Reg[A-Za-z0-9]+/, /[A-Za-z]Counter$/)
+
+rule(register_like_devices, STD_ARGS) do |t, args|
+  generate_width_variations_of("base_files/#{t.name}.sym", "base_files/#{t.name}.vhd") do |s|
     s.vary_width_between             bus_widths(args)
     s.vary_value_of                  'BusWidth'
     s.vary_width_if_starts_with      'd(7:0)', 'q(7:0)'
@@ -48,7 +53,7 @@ end
 #
 # Rule which builds all of the multiplexer-type components.
 #
-rule(/Mux[0-9]+/, STD_ARGS) do |t, args|
+rule(/^Mux[0-9]+/, STD_ARGS) do |t, args|
   generate_width_variations_of("base_files/#{t.name}.sym", "base_files/#{t.name}.vhd") do |s|
     s.vary_width_between         bus_widths(args)
     s.vary_value_of              'BusWidth'
