@@ -10,7 +10,7 @@ entity COMPONENT_NAME_PLACEHOLDER is
   generic(BusWidth : integer := BUS_WIDTH_PLACEHOLDER);
   port(
         d0, d1, d2, d3, d4, d5, d6, d7 : in std_logic_vector(BusWidth - 1 downto 0)
-        s : in std_logic_vector(3 downto 0);
+        s : in std_logic_vector(2 downto 0);
         o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end COMPONENT_NAME_PLACEHOLDER;

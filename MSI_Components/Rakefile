@@ -32,7 +32,7 @@ task :default => :all
 task :all, STD_ARGS => [:Multiplexers, :Registers]
 
 task :Registers, STD_ARGS => :RegParallelLoad
-task :Multiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux2]
+task :Multiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux4, :Mux2]
 
 #
 # Rule used to build all of the register-type components.
