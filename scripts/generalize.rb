@@ -55,7 +55,7 @@ class WidthVariationBuilder
   end
 
   def output_to(value)
-
+    @output_path = value 
   end
 
   #
@@ -107,19 +107,34 @@ class WidthVariationBuilder
     end
   end
 
-  def self.create_collection_modifiers(target, name_by_collection, name_by_block)
+  def self.create_collection_modifiers(target, name_by_collection, name_by_block, name_by_starts_with=nil)
 
-    define_method(name_by_collection) do |*collection|
-      self.instance_variable_get(target) << lambda { |i| collection.include?(i) }
-    end
-
+    #
+    # Uses the provided block to determine if the component should be modified.
+    #
     define_method(name_by_block) do |&block|
       self.instance_variable_get(target) << block
     end
 
+    #
+    # Accepts a list of names, which denote the components to be modified.
+    #
+    define_method(name_by_collection) do |*collection|
+      collection = collection.map { |i| i.downcase }
+      self.instance_variable_get(target) << lambda { |name| collection.include?(name.downcase) }
+    end
+
+    #
+    # Accepts a list of namess 
+    #
+    define_method(name_by_starts_with) do |*collection|
+      collection = collection.map { |i| i.downcase }
+      self.instance_variable_get(target) << lambda { |name| name.downcase.start_with?(*collection) }
+    end
+
   end
 
-  create_collection_modifiers :@pin_match_conditions, :vary_width_of, :vary_width_if
-  create_collection_modifiers :@attribute_match_conditions, :vary_value_of, :vary_value_if
+  create_collection_modifiers :@pin_match_conditions, :vary_width_of, :vary_width_if, :vary_width_if_starts_with
+  create_collection_modifiers :@attribute_match_conditions, :vary_value_of, :vary_value_if, :vary_value_if_starts_with
 
 end

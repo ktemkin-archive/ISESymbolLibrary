@@ -2,14 +2,19 @@
 #require 'rubygems'
 #require 'bundler/setup'
 
+require 'rake/clean'
+
 require 'ise'
 require 'require_all'
 require_all '../scripts' 
+
+CLOBBER.include('*.vhd', '*.sym')
 
 #This parameter specifies the bus widths that should be built.
 DEFAULT_BUS_WIDTHS = 2..32
 
 STD_ARGS = [:low, :high]
+
 
 def bus_widths(args)
   #Get the bus widths, or the defaults if they don't exist.
@@ -24,15 +29,30 @@ end
 #By default, create all of the components with the default options.
 task :default => :all
 
-task :all, STD_ARGS => :BusMux 
+task :all, STD_ARGS => [:Multiplexers, :Registers]
 
-task :BusMux, STD_ARGS => :BusMux16 
+task :Registers, STD_ARGS => :RegParallelLoad
+task :Multiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux2]
 
-task :BusMux16, STD_ARGS do |t, args|
-  generate_width_variations_of('base_files/BusMux16.sym', 'base_files/BusMux16.vhd') do |s|
-    s.vary_width_between  bus_widths(args)
-    s.vary_value_of       'BusWidth'
-    s.vary_width_if       { |pin| pin[0] == 'i' }
-    s.vary_width_if       { |pin| pin[0] == 'o' }
+#
+# Rule used to build all of the register-type components.
+#
+rule(/Reg[A-Za-z0-9]+/, STD_ARGS) do |t, args|
+  generate_width_variations_of('base_files/RegParallelLoad.sym', 'base_files/RegParallelLoad.vhd') do |s|
+    s.vary_width_between             bus_widths(args)
+    s.vary_value_of                  'BusWidth'
+    s.vary_width_if_starts_with      'd(7:0)', 'q(7:0)'
   end
 end
+
+#
+# Rule which builds all of the multiplexer-type components.
+#
+rule(/Mux[0-9]+/, STD_ARGS) do |t, args|
+  generate_width_variations_of("base_files/#{t.name}.sym", "base_files/#{t.name}.vhd") do |s|
+    s.vary_width_between         bus_widths(args)
+    s.vary_value_of              'BusWidth'
+    s.vary_width_if_starts_with  'i', 'd', 'o'
+  end
+end
+

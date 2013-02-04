@@ -43,6 +43,7 @@
 *_xst.xrpt
 *.xmsgs
 *.jhd
+*.schlog
 
 # IP-core-related generated files
 xaw2vhdl.log
