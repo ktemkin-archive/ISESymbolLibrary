@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="Adder">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2013-2-4T6:49:41</timestamp>
+    <timestamp>2013-2-4T7:20:39</timestamp>
     <pin polarity="Input" x="-16" y="32" name="a" />
     <pin polarity="Input" x="-16" y="64" name="b" />
-    <pin polarity="Input" x="160" y="32" name="sum" />
-    <pin polarity="Input" x="160" y="64" name="carry" />
+    <pin polarity="Output" x="160" y="32" name="sum" />
+    <pin polarity="Output" x="160" y="64" name="carry" />
     <graph>
         <rect style="linewidth:W" width="92" x="28" y="16" height="64" />
         <rect width="44" x="-16" y="56" height="16" />

@@ -4,6 +4,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 entity COMPONENT_NAME_PLACEHOLDER is
   generic(BusWidth : integer := BUS_WIDTH_PLACEHOLDER);

@@ -22,7 +22,7 @@ STD_ARGS = [:low, :high]
 task :default => :all
 
 #Logic elements to create.
-task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBitwiseOperators, :AllArithmetic]
+task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBitwiseOperators, :AllArithmetic, :AllBitShifts]
 
 #Categories of logic elements.
 task :AllRegisters, STD_ARGS        => [:RegParallelLoad, :UpCounter]
@@ -33,6 +33,7 @@ task :AllArithmetic, STD_ARGS       => [:AllAdders, :AllSubtractors, :AllMultipl
 task :AllAdders, STD_ARGS           => [:Adder]
 task :AllSubtractors, STD_ARGS      => [:Subtractor]
 task :AllMultipliers, STD_ARGS      => [:Multiplier]
+task :AllBitShifts, STD_ARGS        => [:ShiftRightLogical]
 
 #
 # Rules to create said logic elements.
@@ -47,6 +48,7 @@ BITWISE_OPERATORS    = /^Bit[A-Za-z0-9]+$/
 ADDERS               = /^Adder/
 SUBTRACTORS          = /^Subtractor/
 MULTIPLIERS          = /^Multiplier/
+BIT_SHIFTS           = /^Shift/
 
 #                    Regular expression that     |  List of the inputs/outputs whose
 #                    matches the device's name.  |  widths should be adjusted.*
@@ -58,6 +60,7 @@ create_simple_rule(  BITWISE_OPERATORS,            'i', 'o'                     
 create_simple_rule(  ADDERS,                       'a', 'b', 'sum'                    )
 create_simple_rule(  SUBTRACTORS,                  'a', 'b', 'difference'             )
 create_simple_rule(  MULTIPLIERS,                  'a', 'b', 'product'                )
+create_simple_rule(  BIT_SHIFTS,                   'i', 'o'                           )
 
 #* Anything signal name _starting_ with one of these strings will be modified. 
 #  See ../rake_helpers.rb.

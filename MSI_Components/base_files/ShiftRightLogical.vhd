@@ -10,15 +10,13 @@ entity COMPONENT_NAME_PLACEHOLDER is
   generic(BusWidth : integer := BUS_WIDTH_PLACEHOLDER);
   port(
         --Data signals.
-        a : in std_logic_vector(BusWidth - 1 downto 0);
-        b : in std_logic_vector(BusWidth - 1 downto 0);
-        diff : out std_logic_vector(BusWidth - 1  downto 0);
-        borrow : out std_logic
+        i : in std_logic_vector(BusWidth - 1 downto 0);
+        o : in std_logic_vector(BusWidth - 1 downto 0)
       );
 end COMPONENT_NAME_PLACEHOLDER;
 
 architecture Behavioral of COMPONENT_NAME_PLACEHOLDER is
 begin
-  q <= std_logic_vector(unsigned(a) - unsigned(b));
+  o <= i srl 1;
 end Behavioral;
 
