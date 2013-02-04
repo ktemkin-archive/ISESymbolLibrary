@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <style>
+      line, rect { stroke: rgb(0, 0, 0); stroke-width: 0; }
+      text { fill: rgb(0, 0, 0); stroke-width: 0; }
+    </style>
+    <line x2="96" y1="-32" y2="-160" x1="96" />
+    <line x2="176" y1="-32" y2="-60" x1="96" />
+    <line x2="176" y1="-160" y2="-136" x1="96" />
+    <line x2="140" y1="0" y2="0" x1="96" />
+    <line x2="140" y1="0" y2="-48" x1="140" />
+    <line x2="96" y1="0" y2="0" x1="0" />
+    <line x2="96" y1="-64" y2="-64" x1="0" />
+    <line x2="96" y1="-128" y2="-128" x1="0" />
+    <text style="fontsize:24;fontname:Arial" x="20" y="-12">S</text>
+    <rect width="96" x="0" y="-136" height="16" />
+    <text style="fontsize:24;fontname:Arial" x="104" y="-128">0</text>
+    <text style="fontsize:24;fontname:Arial" x="104" y="-76">1</text>
+    <rect width="96" x="0" y="-72" height="16" />
+    <line x2="176" y1="-96" y2="-96" x1="240" />
+    <line x2="176" y1="-60" y2="-136" x1="176" />
+    <rect width="64" x="176" y="-104" height="16" />
+</svg>

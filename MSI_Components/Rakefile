@@ -4,7 +4,7 @@
 
 require 'rake/clean'
 
-require 'ise'
+require  'ise'
 require 'require_all'
 require_all '../scripts' 
 
@@ -12,56 +12,52 @@ CLOBBER.include('*.vhd', '*.sym')
 
 #This parameter specifies the bus widths that should be built.
 DEFAULT_BUS_WIDTHS = 2..32
-
 STD_ARGS = [:low, :high]
+
+#
+# Logic elements to create.
+#
 
 #By default, create all of the components with the default options.
 task :default => :all
 
 #Logic elements to create.
-task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBitwiseOperators]
+task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBitwiseOperators, :AllArithmetic]
 
 #Categories of logic elements.
-task :AllRegisters, STD_ARGS => [:RegParallelLoad, :UpCounter]
-task :AllMultiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux4, :Mux2]
-task :AllComparators, STD_ARGS => [:EqualityComp]
-task :AllBitwiseOperators, STD_ARGS => [:BitAnd2]
+task :AllRegisters, STD_ARGS        => [:RegParallelLoad, :UpCounter]
+task :AllMultiplexers, STD_ARGS     => [:Mux16, :Mux8, :Mux4, :Mux2]
+task :AllComparators, STD_ARGS      => [:EqualityComp]
+task :AllBitwiseOperators, STD_ARGS => [:BitAnd2, :BitOr2, :BitXor2]
+task :AllArithmetic, STD_ARGS       => [:AllAdders, :AllSubtractors, :AllMultipliers]
+task :AllAdders, STD_ARGS           => [:Adder]
+task :AllSubtractors, STD_ARGS      => [:Subtractor]
+task :AllMultipliers, STD_ARGS      => [:Multiplier]
 
 #
-# Rule used to build all of the register-type components.
+# Rules to create said logic elements.
 #
 
-register_like_devices = Regexp.union(/^Reg[A-Za-z0-9]+$/, /^[A-Za-z]+Counter$/)
+#Regular expressions for matching device names.
+#These are used to determine which of the rules from the table below should be applied.
+REGISTERS            = Regexp.union(/^Reg[A-Za-z0-9]+$/, /^[A-Za-z]+Counter$/)
+MULTIPLEXERS         = /^Mux[0-9]+/
+COMPARATORS          = /^[A-Za-z]+Comp$/
+BITWISE_OPERATORS    = /^Bit[A-Za-z0-9]+$/
+ADDERS               = /^Adder/
+SUBTRACTORS          = /^Subtractor/
+MULTIPLIERS          = /^Multiplier/
 
-rule(register_like_devices, STD_ARGS) do |t, args|
-  generate_standard_width_variations_of(t.name, args) do |s|
-    s.vary_width_if_starts_with 'd(7:0)', 'q(7:0)'
-  end
-end
+#                    Regular expression that     |  List of the inputs/outputs whose
+#                    matches the device's name.  |  widths should be adjusted.*
+#                  =============================+====================================
+create_simple_rule(  REGISTERS,                    'd', 'q'                           )
+create_simple_rule(  MULTIPLEXERS,                 'i', 'd', 'o'                      )
+create_simple_rule(  COMPARATORS,                  'a', 'b'                           )
+create_simple_rule(  BITWISE_OPERATORS,            'i', 'o'                           )
+create_simple_rule(  ADDERS,                       'a', 'b', 'sum'                    )
+create_simple_rule(  SUBTRACTORS,                  'a', 'b', 'difference'             )
+create_simple_rule(  MULTIPLIERS,                  'a', 'b', 'product'                )
 
-#
-# Rule which builds all of the multiplexer-type components.
-#
-rule(/^Mux[0-9]+/, STD_ARGS) do |t, args|
-  generate_standard_width_variations_of(t.name, args) do |s|
-    s.vary_width_if_starts_with 'i', 'd', 'o'
-  end
-end
-
-#
-# Rule which builds all of the comparator-type components.
-#
-rule(/^[A-Za-z]+Comp$/, STD_ARGS) do |t, args|
-  generate_standard_width_variations_of(t.name, args) do |s|
-    s.vary_width_if_starts_with 'a', 'b'
-  end
-end
-
-#
-# Rule which builds all of the bit-wise operators.
-#
-rule(/^Bit[A-Za-z0-9]+$/, STD_ARGS) do |t, args|
-  generate_standard_width_variations_of(t.name, args) do |s|
-    s.vary_width_if_starts_with 'i', 'o'
-  end
-end
+#* Anything signal name _starting_ with one of these strings will be modified. 
+#  See ../rake_helpers.rb.

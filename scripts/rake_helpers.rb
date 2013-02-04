@@ -26,3 +26,14 @@ def generate_standard_width_variations_of(base_name, args)
     yield s
   end
 end
+
+#
+# Helper function which creates a Rake rule to generate simple parts.
+#
+def create_simple_rule(regex, *starts_with)
+  rule(regex, STD_ARGS) do |t, args|
+    generate_standard_width_variations_of(t.name, args) do |s|
+      s.vary_width_if_starts_with(*starts_with)
+    end
+  end
+end

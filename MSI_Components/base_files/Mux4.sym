@@ -2,10 +2,6 @@
 <symbol version="7" name="Mux4">
     <symboltype>BLOCK</symboltype>
     <timestamp>2013-2-4T5:4:29</timestamp>
-    <attr value="M4_1E_MXILINX" name="VeriModel" />
-    <attr value="Copy Of Symbol With Level: MXILINX" name="Level" />
-    <attr value="M4_1E_MXILINX" name="VhdlModel" />
-    <attr value="2.0.0" name="Libver" />
     <pin polarity="Input" x="0" y="-320" name="D0" />
     <pin polarity="Input" x="0" y="-256" name="D1" />
     <pin polarity="Input" x="0" y="-192" name="D2" />
