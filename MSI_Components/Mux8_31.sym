@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="Mux8_31">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2013-2-4T3:6:0</timestamp>
+    <pin polarity="Input" x="0" y="-528" name="D0(30:0)"/>
+    <pin polarity="Input" x="0" y="-464" name="D1(30:0)"/>
+    <pin polarity="Input" x="0" y="-400" name="D2(30:0)"/>
+    <pin polarity="Input" x="0" y="-336" name="D3(30:0)"/>
+    <pin polarity="Input" x="0" y="-272" name="D4(30:0)"/>
+    <pin polarity="Input" x="0" y="-208" name="D5(30:0)"/>
+    <pin polarity="Input" x="0" y="-144" name="D6(30:0)"/>
+    <pin polarity="Input" x="0" y="-80" name="D7(30:0)"/>
+    <pin polarity="Input" x="0" y="-16" name="S(2:0)"/>
+    <pin polarity="Output" x="272" y="-304" name="O(30:0)"/>
+    <graph>
+        <line x2="96" y1="-80" y2="-80" x1="0"/>
+        <line x2="96" y1="-144" y2="-144" x1="0"/>
+        <line x2="96" y1="-208" y2="-208" x1="0"/>
+        <line x2="96" y1="-336" y2="-336" x1="0"/>
+        <line x2="96" y1="-400" y2="-400" x1="0"/>
+        <line x2="96" y1="-464" y2="-464" x1="0"/>
+        <line x2="160" y1="-60" y2="-16" style="linewidth:W" x1="160"/>
+        <line x2="96" y1="-560" y2="-48" x1="96"/>
+        <line x2="208" y1="-560" y2="-516" x1="96"/>
+        <line x2="208" y1="-48" y2="-72" x1="96"/>
+        <line x2="96" y1="-272" y2="-272" x1="0"/>
+        <rect width="96" x="0" y="-536" height="16"/>
+        <line x2="96" y1="-528" y2="-528" x1="0"/>
+        <rect width="96" x="0" y="-472" height="16"/>
+        <rect width="96" x="0" y="-408" height="16"/>
+        <rect width="96" x="0" y="-344" height="16"/>
+        <rect width="96" x="0" y="-280" height="16"/>
+        <rect width="96" x="0" y="-216" height="16"/>
+        <rect width="96" x="0" y="-152" height="16"/>
+        <rect width="96" x="0" y="-88" height="16"/>
+        <line x2="96" y1="-16" y2="-16" x1="0"/>
+        <line x2="160" y1="-16" y2="-16" style="linewidth:W" x1="96"/>
+        <rect width="96" x="0" y="-24" height="16"/>
+        <line x2="208" y1="-516" y2="-72" x1="208"/>
+        <line x2="208" y1="-304" y2="-304" x1="272"/>
+        <rect width="64" x="208" y="-312" height="16"/>
+        <text style="fontsize:24;fontname:Arial" x="12" y="-40">S(2:0)</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-276">4</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-212">5</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-340">3</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-404">2</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-468">1</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-148">6</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-84">7</text>
+        <text style="fontsize:24;fontname:Arial" x="108" y="-532">0</text>
+        <attrtext attrname="PinName" x="236" y="-324" type="pin O(30:0)"/>
+    </graph>
+</symbol>

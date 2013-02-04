@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbol version="7" name="BitOr2_5">
+    <symboltype>BLOCK</symboltype>
+    <timestamp>2013-2-4T6:21:55</timestamp>
+    <pin polarity="Input" x="0" y="-64" name="I0(4:0)"/>
+    <pin polarity="Input" x="0" y="-128" name="I1(4:0)"/>
+    <pin polarity="Output" x="256" y="-96" name="O(4:0)"/>
+    <graph>
+        <line x2="64" y1="-64" y2="-64" x1="0"/>
+        <line x2="64" y1="-128" y2="-128" x1="0"/>
+        <line x2="192" y1="-96" y2="-96" x1="256"/>
+        <rect width="64" x="0" y="-136" height="16"/>
+        <rect width="64" x="0" y="-72" height="16"/>
+        <rect width="64" x="192" y="-104" height="16"/>
+        <attrtext style="fontsize:24;fontname:Arial" attrname="SymbolName" x="64" y="-32" type="symbol"/>
+        <line x2="48" y1="-48" y2="-48" x1="112"/>
+        <arc ex="192" ey="-96" sx="112" sy="-48" r="88" cx="116" cy="-136"/>
+        <arc ex="48" ey="-144" sx="48" sy="-48" r="56" cx="16" cy="-96"/>
+        <line x2="48" y1="-144" y2="-144" x1="112"/>
+        <arc ex="112" ey="-144" sx="192" sy="-96" r="88" cx="116" cy="-56"/>
+    </graph>
+</symbol>
