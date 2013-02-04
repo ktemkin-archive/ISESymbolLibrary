@@ -15,38 +15,27 @@ DEFAULT_BUS_WIDTHS = 2..32
 
 STD_ARGS = [:low, :high]
 
-
-def bus_widths(args)
-  #Get the bus widths, or the defaults if they don't exist.
-  low = args[:low] || DEFAULT_BUS_WIDTHS.first
-  high = args[:high] || DEFAULT_BUS_WIDTHS.last
-
-  #And return a range which includes each bus width do be created.
-  low..high
-end
-
-
 #By default, create all of the components with the default options.
 task :default => :all
 
 #Logic elements to create.
-task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters]
+task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBitwiseOperators]
 
 #Categories of logic elements.
 task :AllRegisters, STD_ARGS => [:RegParallelLoad, :UpCounter]
 task :AllMultiplexers, STD_ARGS => [:Mux16, :Mux8, :Mux4, :Mux2]
+task :AllComparators, STD_ARGS => [:EqualityComp]
+task :AllBitwiseOperators, STD_ARGS => [:BitAnd2]
 
 #
 # Rule used to build all of the register-type components.
 #
 
-register_like_devices = Regexp.union(/^Reg[A-Za-z0-9]+/, /[A-Za-z]Counter$/)
+register_like_devices = Regexp.union(/^Reg[A-Za-z0-9]+$/, /^[A-Za-z]+Counter$/)
 
 rule(register_like_devices, STD_ARGS) do |t, args|
-  generate_width_variations_of("base_files/#{t.name}.sym", "base_files/#{t.name}.vhd") do |s|
-    s.vary_width_between             bus_widths(args)
-    s.vary_value_of                  'BusWidth'
-    s.vary_width_if_starts_with      'd(7:0)', 'q(7:0)'
+  generate_standard_width_variations_of(t.name, args) do |s|
+    s.vary_width_if_starts_with 'd(7:0)', 'q(7:0)'
   end
 end
 
@@ -54,10 +43,25 @@ end
 # Rule which builds all of the multiplexer-type components.
 #
 rule(/^Mux[0-9]+/, STD_ARGS) do |t, args|
-  generate_width_variations_of("base_files/#{t.name}.sym", "base_files/#{t.name}.vhd") do |s|
-    s.vary_width_between         bus_widths(args)
-    s.vary_value_of              'BusWidth'
-    s.vary_width_if_starts_with  'i', 'd', 'o'
+  generate_standard_width_variations_of(t.name, args) do |s|
+    s.vary_width_if_starts_with 'i', 'd', 'o'
   end
 end
 
+#
+# Rule which builds all of the comparator-type components.
+#
+rule(/^[A-Za-z]+Comp$/, STD_ARGS) do |t, args|
+  generate_standard_width_variations_of(t.name, args) do |s|
+    s.vary_width_if_starts_with 'a', 'b'
+  end
+end
+
+#
+# Rule which builds all of the bit-wise operators.
+#
+rule(/^Bit[A-Za-z0-9]+$/, STD_ARGS) do |t, args|
+  generate_standard_width_variations_of(t.name, args) do |s|
+    s.vary_width_if_starts_with 'i', 'o'
+  end
+end

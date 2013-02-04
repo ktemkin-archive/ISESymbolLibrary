@@ -4,6 +4,7 @@ require 'ise'
 class WidthVariationBuilder
 
   DEFAULT_BUS_WIDTH = 2..32
+
   COMPONENT_NAME_PLACEHOLDER = 'COMPONENT_NAME_PLACEHOLDER'
   BUS_WIDTH_PLACEHOLDER = 'BUS_WIDTH_PLACEHOLDER'
 
@@ -69,6 +70,7 @@ class WidthVariationBuilder
   # Generates the symbol files configured by this 
   #
   def build(output_path=@output_path)
+
     @widths.each do |width|
 
       #Create a copy of the symbol.

@@ -1,3 +1,8 @@
 select figure at 296 -19 8
 select figure at 167 -22 8
 select figure at 382 -2 8
+select figure at 414 -54 8
+select figure at 24 17 8
+select figure at 334 24 8
+select all in -2147483648 -2147483648 2147483647 2147483647
+select all in -2147483648 -2147483648 2147483647 2147483647
