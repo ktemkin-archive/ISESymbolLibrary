@@ -11,7 +11,7 @@ entity BitXor2_5 is
         --Data signals.
         i0 : in std_logic_vector(BusWidth - 1 downto 0);
         i1 : in std_logic_vector(BusWidth - 1 downto 0);
-        o : out std_logic
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end BitXor2_5;
 

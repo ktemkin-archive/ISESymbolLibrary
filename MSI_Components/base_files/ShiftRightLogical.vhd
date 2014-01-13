@@ -11,12 +11,12 @@ entity COMPONENT_NAME_PLACEHOLDER is
   port(
         --Data signals.
         i : in std_logic_vector(BusWidth - 1 downto 0);
-        o : in std_logic_vector(BusWidth - 1 downto 0)
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end COMPONENT_NAME_PLACEHOLDER;
 
 architecture Behavioral of COMPONENT_NAME_PLACEHOLDER is
 begin
-  o <= i srl 1;
+  o <= '0' & i(BusWidth - 1 downto 1);
 end Behavioral;
 

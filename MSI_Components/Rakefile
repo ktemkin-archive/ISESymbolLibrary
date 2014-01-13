@@ -28,11 +28,11 @@ task :all, STD_ARGS => [:AllMultiplexers, :AllRegisters, :AllComparators, :AllBi
 task :AllRegisters, STD_ARGS        => [:RegParallelLoad, :UpCounter]
 task :AllMultiplexers, STD_ARGS     => [:Mux16, :Mux8, :Mux4, :Mux2]
 task :AllComparators, STD_ARGS      => [:EqualityComp]
-task :AllBitwiseOperators, STD_ARGS => [:BitAnd2, :BitOr2, :BitXor2]
+task :AllBitwiseOperators, STD_ARGS => [:BitAnd2, :BitOr2, :BitXor2, :Buf]
 task :AllArithmetic, STD_ARGS       => [:AllAdders, :AllSubtractors, :AllMultipliers]
 task :AllAdders, STD_ARGS           => [:Adder]
 task :AllSubtractors, STD_ARGS      => [:Subtractor]
-task :AllMultipliers, STD_ARGS      => [:Multiplier]
+task :AllMultipliers, STD_ARGS      => [:Multiplier, :Multiplier_Overflow]
 task :AllBitShifts, STD_ARGS        => [:ShiftRightLogical]
 
 #
@@ -44,23 +44,21 @@ task :AllBitShifts, STD_ARGS        => [:ShiftRightLogical]
 REGISTERS            = Regexp.union(/^Reg[A-Za-z0-9]+$/, /^[A-Za-z]+Counter$/)
 MULTIPLEXERS         = /^Mux[0-9]+/
 COMPARATORS          = /^[A-Za-z]+Comp$/
-BITWISE_OPERATORS    = /^Bit[A-Za-z0-9]+$/
+BITWISE_OPERATORS    = Regexp.union(/^Bit[A-Za-z0-9]+$/, /^Buf/)
 ADDERS               = /^Adder/
 SUBTRACTORS          = /^Subtractor/
 MULTIPLIERS          = /^Multiplier/
 BIT_SHIFTS           = /^Shift/
 
 #                    Regular expression that     |  List of the inputs/outputs whose
-#                    matches the device's name.  |  widths should be adjusted.*
+#                    matches the device's name.  |  widths should be adjusted.
 #                  =============================+====================================
 create_simple_rule(  REGISTERS,                    'd', 'q'                           )
-create_simple_rule(  MULTIPLEXERS,                 'i', 'd', 'o'                      )
+create_simple_rule(  MULTIPLEXERS,                 /^i/i, /^d/i, 'o'                  )
 create_simple_rule(  COMPARATORS,                  'a', 'b'                           )
-create_simple_rule(  BITWISE_OPERATORS,            'i', 'o'                           )
+create_simple_rule(  BITWISE_OPERATORS,            /^I/i, /^O/i                       )
 create_simple_rule(  ADDERS,                       'a', 'b', 'sum'                    )
-create_simple_rule(  SUBTRACTORS,                  'a', 'b', 'difference'             )
+create_simple_rule(  SUBTRACTORS,                  'a', 'b', 'diff'                   )
 create_simple_rule(  MULTIPLIERS,                  'a', 'b', 'product'                )
 create_simple_rule(  BIT_SHIFTS,                   'i', 'o'                           )
 
-#* Anything signal name _starting_ with one of these strings will be modified. 
-#  See ../rake_helpers.rb.

@@ -11,12 +11,12 @@ entity COMPONENT_NAME_PLACEHOLDER is
         --Data signals.
         i0 : in std_logic_vector(BusWidth - 1 downto 0);
         i1 : in std_logic_vector(BusWidth - 1 downto 0);
-        o : out std_logic
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end COMPONENT_NAME_PLACEHOLDER;
 
 architecture Behavioral of COMPONENT_NAME_PLACEHOLDER is
 begin
-  eq <= '1' when (a = b) else '0';
+  o <= i1 and i0;
 end Behavioral;
 

@@ -11,12 +11,12 @@ entity BitAnd2_16 is
         --Data signals.
         i0 : in std_logic_vector(BusWidth - 1 downto 0);
         i1 : in std_logic_vector(BusWidth - 1 downto 0);
-        o : out std_logic
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end BitAnd2_16;
 
 architecture Behavioral of BitAnd2_16 is
 begin
-  eq <= '1' when (a = b) else '0';
+  o <= i1 and i0;
 end Behavioral;
 

@@ -1,3 +1,0 @@
-source "http://rubygems.org"
-gem "require_all", "~>1.2.1"
-gem "ise", "~>0.5.1"

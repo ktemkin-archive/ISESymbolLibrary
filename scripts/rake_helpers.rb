@@ -1,5 +1,8 @@
+
 require 'require_all'
 require_all '.'
+
+require 'ise'
 
 #
 # Helpers which allows global access to generation functions.
@@ -30,10 +33,8 @@ end
 #
 # Helper function which creates a Rake rule to generate simple parts.
 #
-def create_simple_rule(regex, *starts_with)
+def create_simple_rule(regex, *elements)
   rule(regex, STD_ARGS) do |t, args|
-    generate_standard_width_variations_of(t.name, args) do |s|
-      s.vary_width_if_starts_with(*starts_with)
-    end
+    generate_standard_width_variations_of(t.name, args) { |s| s.vary_width_of(*elements) }
   end
 end

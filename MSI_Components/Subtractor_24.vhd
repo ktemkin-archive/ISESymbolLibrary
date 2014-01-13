@@ -10,15 +10,26 @@ entity Subtractor_24 is
   generic(BusWidth : integer := 24);
   port(
         --Data signals.
-        a : in std_logic_vector(BusWidth - 1 downto 0);
-        b : in std_logic_vector(BusWidth - 1 downto 0);
-        diff : out std_logic_vector(BusWidth - 1  downto 0);
+        a : in unsigned(BusWidth - 1 downto 0);
+        b : in unsigned(BusWidth - 1 downto 0);
+        diff : out unsigned(BusWidth - 1  downto 0);
         borrow : out std_logic
       );
 end Subtractor_24;
 
 architecture Behavioral of Subtractor_24 is
+  signal a_padded, b_padded, with_borrow : unsigned(BusWidth downto 0);
 begin
-  q <= std_logic_vector(unsigned(a) - unsigned(b));
+
+  --Bit pad A and B to create a signal with room for the borrow out.
+  a_padded <= '0' & a;
+  b_padded <= '0' & b;
+
+  --Perform the subtraction...
+  with_borrow <= a_padded - b_padded;
+
+  --And break into into the difference and borrow.
+  diff <= with_borrow(BusWidth - 1 downto 0);
+  borrow <= with_borrow(BusWidth);
 end Behavioral;
 

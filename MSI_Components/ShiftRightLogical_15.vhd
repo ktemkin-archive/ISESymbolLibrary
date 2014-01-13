@@ -11,12 +11,12 @@ entity ShiftRightLogical_15 is
   port(
         --Data signals.
         i : in std_logic_vector(BusWidth - 1 downto 0);
-        o : in std_logic_vector(BusWidth - 1 downto 0)
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end ShiftRightLogical_15;
 
 architecture Behavioral of ShiftRightLogical_15 is
 begin
-  o <= i srl 1;
+  o <= '0' & i(BusWidth - 1 downto 1);
 end Behavioral;
 

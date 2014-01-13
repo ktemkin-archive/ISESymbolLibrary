@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="ShiftRightLogical_5">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2013-2-4T7:19:46</timestamp>
+    <timestamp>2013-2-5T3:21:37</timestamp>
     <pin polarity="Output" x="160" y="48" name="o(4:0)"/>
     <pin polarity="Input" x="-16" y="48" name="i(4:0)"/>
     <graph>
@@ -11,6 +11,7 @@
         <rect width="44" x="-16" y="40" height="16"/>
         <line x2="-16" y1="48" y2="48" x1="28"/>
         <attrtext style="fontsize:20;fontname:Arial" attrname="SymbolName" x="8" y="8" type="symbol"/>
-        <text style="fontsize:36;fontname:Arial" x="44" y="48">&gt;&gt;1</text>
+        <text style="fontsize:36;fontname:Arial" x="64" y="48">&gt;1</text>
+        <text style="fontsize:38;fontname:Arial" x="40" y="48">&gt;</text>
     </graph>
 </symbol>

@@ -79,7 +79,7 @@ class WidthVariationBuilder
       #If any of the pins match any of the provided pin conditions, adjust the width
       #of that pin.
       symbol.each_pin_with_name do |pin, name|
-        if @pin_match_conditions.any? { |condition| condition.call(name) }
+        if @pin_match_conditions.any? { |condition| condition.(name) }
           symbol.set_pin_width!(pin, width)
         end
       end
@@ -87,7 +87,7 @@ class WidthVariationBuilder
       #If any of the attributes match any of the provided attribute conditions, adjust
       #their value.
       symbol.each_attribute do |name, value|
-        if @attribute_match_conditions.any? { |condition| condition.call(name) }
+        if @attribute_match_conditions.any? { |condition| condition.(name) }
           symbol[name] = width
         end
       end
@@ -109,34 +109,78 @@ class WidthVariationBuilder
     end
   end
 
-  def self.create_collection_modifiers(target, name_by_collection, name_by_block, name_by_starts_with=nil)
+  def self.create_collection_modifiers(target, name_by_collection, name_by_block, name_by_starts_with=nil, name_by_regex=nil)
 
     #
     # Uses the provided block to determine if the component should be modified.
     #
     define_method(name_by_block) do |&block|
-      self.instance_variable_get(target) << block
+      target << block
     end
 
     #
     # Accepts a list of names, which denote the components to be modified.
     #
     define_method(name_by_collection) do |*collection|
-      collection = collection.map { |i| i.downcase }
-      self.instance_variable_get(target) << lambda { |name| collection.include?(name.downcase) }
+      
+      #Automatically add a condition according to the type of the item.
+      #For strings, check for case-insensitive equivalence (as VHDL is 
+      #For regular expressions, check to see if the regex matches.
+      collection.each do |item|
+        instance_variable_get(target) << case item
+          when String then lambda { |name| self.class.matches_pin_name(name, item) }
+          when Regexp then lambda { |name| item === name }
+          else raise ArgumentError, "Expected a string or regular expression!"
+        end
+      end
     end
 
     #
-    # Accepts a list of namess 
+    # Accepts a list of name prexfies. Any component which starts with a given prefix
+    # will be modified.
     #
-    define_method(name_by_starts_with) do |*collection|
-      collection = collection.map { |i| i.downcase }
-      self.instance_variable_get(target) << lambda { |name| name.downcase.start_with?(*collection) }
+    if name_by_starts_with
+      define_method(name_by_starts_with) do |*collection|
+
+        #Ensure each member of the collection is lowercase,
+        #so our compare is case-insensitive.
+        collection = collection.map { |i| i.downcase }
+
+        #Check to see if the given pin matches any of our prefixes.
+        instance_variable_get(target) << lambda { |name| name.downcase.start_with?(*collection) }
+
+      end
     end
+
+    #
+    # Accepts a list of regular expressions. Any component whose name matches the given expressions
+    # will be modified.
+    #
+    if name_by_regex
+      define_method(name_by_regex) do |collection|
+        instance_variable_get(target) << lambda { |name| name === Regexp.union(*collection) }
+      end
+    end
+
 
   end
 
-  create_collection_modifiers :@pin_match_conditions, :vary_width_of, :vary_width_if, :vary_width_if_starts_with
-  create_collection_modifiers :@attribute_match_conditions, :vary_value_of, :vary_value_if, :vary_value_if_starts_with
+  create_collection_modifiers :@pin_match_conditions, :vary_width_of, :vary_width_if, :vary_width_if_starts_with, :vary_width_if_matches
+  create_collection_modifiers :@attribute_match_conditions, :vary_value_of, :vary_value_if, :vary_value_if_starts_with, :vary_width_if_matches
+
+  private 
+
+  #
+  # Convenience function which retursn only the base name of the pin, without its bus suffix.
+  #
+  def self.matches_pin_name(pin_name, base_name)
+
+    #Extract the base name of the pin...
+    pin_name, _, _ = ISE::Symbol.parse_pin_name(pin_name)
+
+    #If it's zero, we have a match.
+    return pin_name.casecmp(base_name).zero?
+
+  end
 
 end

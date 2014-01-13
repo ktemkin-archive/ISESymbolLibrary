@@ -1,5 +1,5 @@
 --
--- Equality comparator template.
+-- Bitwise OR template.
 --
 
 library IEEE;
@@ -11,7 +11,7 @@ entity BitOr2_13 is
         --Data signals.
         i0 : in std_logic_vector(BusWidth - 1 downto 0);
         i1 : in std_logic_vector(BusWidth - 1 downto 0);
-        o : out std_logic
+        o : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end BitOr2_13;
 

@@ -1,4 +1,4 @@
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 -- Company: 
 -- Engineer: 
 -- 
@@ -39,13 +39,15 @@ entity UpCounter_4 is
         clear : in std_logic;
 
         --Data signals.
-        d : in std_logic_vector(BusWidth - 1 downto 0);
         q : out std_logic_vector(BusWidth - 1 downto 0)
       );
 end UpCounter_4;
 
 architecture Behavioral of UpCounter_4 is
+  signal q_signal :  std_logic_vector(BusWidth - 1 downto 0);
 begin
+
+  q <= q_signal;
 
   process(clk)
   begin
@@ -53,11 +55,10 @@ begin
     --Proirity logic.
     if rising_edge(clk) then
       if clear = '1' then
-        q <= (others => '0');
+        q_signal <= (others => '0');
       elsif count = '1' then
-        q <= std_logic_vector(unsigned(count) + 1);
-      else
-        q <= d;
+        q_signal <= std_logic_vector(unsigned(q_signal) + 1);
+      end if;
     end if;
 
 

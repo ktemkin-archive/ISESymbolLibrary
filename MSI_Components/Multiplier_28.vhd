@@ -18,6 +18,6 @@ end Multiplier_28;
 
 architecture Behavioral of Multiplier_28 is
 begin
-  q <= std_logic_vector(unsigned(a) * unsigned(b));
+  product <= std_logic_vector(unsigned(a) * unsigned(b));
 end Behavioral;
 

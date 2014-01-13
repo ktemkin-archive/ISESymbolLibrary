@@ -18,6 +18,6 @@ end COMPONENT_NAME_PLACEHOLDER;
 
 architecture Behavioral of COMPONENT_NAME_PLACEHOLDER is
 begin
-  q <= std_logic_vector(unsigned(a) * unsigned(b));
+  product <= std_logic_vector(unsigned(a) * unsigned(b));
 end Behavioral;
 
